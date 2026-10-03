@@ -1,0 +1,167 @@
+/* ==========================================================================
+   DOCTRINE & COVENANTS GEOGRAPHY - TIMELINE STYLING
+   ========================================================================== */
+
+.app-timeline-bar {
+  height: var(--timeline-height);
+  background: #241c14;
+  color: #ede5d8;
+  border-top: 1.5px solid var(--gold-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 20px;
+  position: relative;
+  z-index: 900;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+  font-family: var(--font-ui);
+}
+
+.timeline-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.timeline-info-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeline-step-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(212, 175, 55, 0.2);
+  color: #f7e7ce;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.timeline-current-title {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 480px;
+}
+
+.timeline-current-date {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  color: #d4af37;
+}
+
+/* Timeline Controls */
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f7e7ce;
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.timeline-btn:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: var(--gold-light);
+  color: #fff;
+}
+
+.timeline-btn.play-btn {
+  background: var(--gold-primary);
+  color: #1a140d;
+  border-color: var(--gold-light);
+}
+
+.timeline-btn.play-btn:hover {
+  background: var(--gold-light);
+}
+
+/* Scrubber Slider */
+.timeline-slider-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #3e3225;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.timeline-slider:hover {
+  background: #4f4030;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
+  transition: transform var(--transition-fast);
+}
+
+.timeline-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+.timeline-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
+}
+
+/* Timeline Marks */
+.timeline-ticks {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+  padding: 0 2px;
+}
+
+.timeline-tick-label {
+  font-size: 10px;
+  color: #9c8e7b;
+  user-select: none;
+}

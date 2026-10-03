@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Doctrine and Covenants Geography - Interactive Historical Atlas (~1805 – 1890)</title>
+  <meta name="description" content="An interactive cartographic atlas and chronological explorer of the Doctrine and Covenants and early Latter-day Saint history spanning ~1805 to 1890. Explore revelations in exact chronological order, sacred sites, Zion's Camp, the Mormon Pioneer Trail, and authentic primary sources from ChurchofJesusChrist.org and JosephSmithPapers.org.">
+  <meta name="keywords" content="Doctrine and Covenants Geography, Church History Atlas, Joseph Smith Papers, Kirtland Temple, Nauvoo Temple, Sacred Grove, Hill Cumorah, Harmony Priesthood Restoration, Zion's Camp, Pioneer Trail, Salt Lake Valley, Church of Jesus Christ">
+  <meta name="author" content="Interactive Scripture Atlas">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="Doctrine and Covenants Geography - Interactive Historical Atlas">
+  <meta property="og:description" content="Interactive map of the Doctrine and Covenants from ~1805 to 1890 with chronological revelations, sacred sites, Zion's Camp, pioneer trails, and authentic historical documentation.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+
+  <!-- Google Fonts: Cinzel (Display), Cormorant Garamond (Literary/Scripture), Inter & Outfit (Clean UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css?v=1.0">
+  <link rel="stylesheet" href="css/map.css?v=1.0">
+  <link rel="stylesheet" href="css/sidebar.css?v=1.0">
+  <link rel="stylesheet" href="css/timeline.css?v=1.0">
+  <link rel="stylesheet" href="css/components.css?v=1.0">
+  <link rel="stylesheet" href="css/mobile.css?v=1.0">
+
+  <!-- Mobile Viewport & Phone Shell Detection -->
+  <script>
+    (function () {
+      var phone = window.matchMedia("(max-width: 900px)").matches || /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+      document.documentElement.classList.toggle("layout-mobile", phone);
+      if (phone) {
+        var vv = window.visualViewport;
+        var h = Math.round((vv && vv.height) || window.innerHeight);
+        if (h) document.documentElement.style.setProperty("--app-vh", h + "px");
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.toggle("layout-mobile", phone);
+      });
+    })();
+  </script>
+</head>
+<body class="parchment-theme">
+  <div class="app-container">
+
+    <!-- Companion Scriptural Atlases Bar (Matching Sister Sites) -->
+    <div class="companion-atlases-bar" id="companionAtlasesBar" aria-label="Companion Scriptural Atlases">
+      <div class="companion-atlases-inner">
+        <span class="companion-bar-label">Companion Scriptural Atlases:</span>
+        <div class="companion-links">
+          <a href="#" class="companion-link active" title="Current: Doctrine and Covenants Geography Atlas (~1805 – 1890)">
+            <span class="companion-icon">📜</span>
+            <span class="companion-title">Doctrine & Covenants Atlas</span>
+            <span class="companion-badge">Active</span>
+          </a>
+          <a href="https://jviola60.github.io/old-testament-geography/" target="_blank" rel="noopener" class="companion-link" title="Open Old Testament Geography Atlas (~4000 BC – 400 BC)">
+            <span class="companion-icon">🕎</span>
+            <span class="companion-title">Old Testament Atlas</span>
+            <span class="companion-ext">↗</span>
+          </a>
+          <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener" class="companion-link" title="Open New Testament Geography Atlas (~6 BC – 100 AD)">
+            <span class="companion-icon">✝️</span>
+            <span class="companion-title">New Testament Atlas</span>
+            <span class="companion-ext">↗</span>
+          </a>
+          <a href="https://jviola60.github.io/book-of-mormon-geography/" target="_blank" rel="noopener" class="companion-link" title="Open Book of Mormon Geography Atlas & Codex (~2200 BC – AD 421)">
+            <span class="companion-icon">🪙</span>
+            <span class="companion-title">Book of Mormon Atlas</span>
+            <span class="companion-ext">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Application Header -->
+    <header class="app-header" id="appHeader">
+      <div class="header-left">
+        <button id="mobileMenuBtn" class="btn btn-icon mobile-menu-btn" type="button" title="Open menu" aria-label="Open atlas menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+
+        <div class="app-branding" id="appBrandHome" title="Reset View to Overview">
+          <div class="brand-symbol">
+            <!-- Restoration Quill & Scroll Symbol -->
+            <svg viewBox="0 0 40 40" width="26" height="26" fill="currentColor">
+              <path d="M12 8 C10 8 8 10 8 12 L8 28 C8 30 10 32 12 32 L28 32 C30 32 32 30 32 28 L32 12 C32 10 30 8 28 8 Z M12 11 L28 11 C28.5 11 29 11.5 29 12 L29 28 C29 28.5 28.5 29 28 29 L12 29 C11.5 29 11 28.5 11 28 L11 12 C11 11.5 11.5 11 12 11 Z" opacity="0.4"/>
+              <path d="M26 6 L30 10 L18 22 L14 22 L14 18 Z" fill="var(--gold-primary)"/>
+              <line x1="14" y1="16" x2="24" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="14" y1="20" x2="22" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="14" y1="24" x2="26" y2="24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <h1 class="brand-title">Doctrine & Covenants Geography</h1>
+            <span class="brand-subtitle">Interactive Historical Atlas & Chronological Codex • ~1805 – 1890</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Search -->
+      <div class="header-center">
+        <div class="search-box-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Search sacred place, D&C section, or person..." autocomplete="off" aria-label="Search Atlas">
+          <button id="clearSearchBtn" class="clear-search-btn" title="Clear search">&times;</button>
+          <div id="searchResultsDropdown" class="search-results-dropdown"></div>
+        </div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-right">
+        <!-- Welcome Guide Button -->
+        <button id="welcomeGuideBtn" class="btn btn-outline" title="Welcome to Doctrine & Covenants Geography Guide">
+          <span>📜</span>
+          <span class="btn-text">Welcome</span>
+        </button>
+
+        <!-- Travel & Pioneer Calculator Button -->
+        <button id="travelCalcBtn" class="btn btn-outline" title="Pioneer Distances & Travel Calculator">
+          <span>📏</span>
+          <span class="btn-text">Distances</span>
+        </button>
+
+        <!-- Life in the 1800s Pioneer Era -->
+        <button id="lifeBackThenBtn" class="btn btn-outline" title="Life in the 1800s Restoration Era">
+          <span>🕯️</span>
+          <span class="btn-text">Frontier Life</span>
+        </button>
+
+        <!-- Quick Region Focus Dropdown -->
+        <div class="dropdown-container">
+          <button id="regionSelectBtn" class="btn btn-outline" title="Zoom to Historical Region">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+            <span class="btn-text">Regions</span>
+          </button>
+          <div id="regionDropdown" class="dropdown-menu">
+            <button data-region="all-overview" class="dropdown-item">🗺️ All Regions (Overview)</button>
+            <button data-region="new-york-early" class="dropdown-item">📜 New York & Pennsylvania (1805–1831)</button>
+            <button data-region="kirtland-ohio" class="dropdown-item">🏛️ Kirtland & Hiram, Ohio (1831–1838)</button>
+            <button data-region="missouri-zion" class="dropdown-item">📍 Jackson County & Independence (1831–1833)</button>
+            <button data-region="missouri-far-west" class="dropdown-item">⚔️ Far West & Liberty Jail (1838–1839)</button>
+            <button data-region="nauvoo-illinois" class="dropdown-item">🌊 Nauvoo & Carthage, Illinois (1839–1846)</button>
+            <button data-region="pioneer-exodus" class="dropdown-item">⛺ Iowa Waystations & Winter Quarters (1846–1847)</button>
+            <button data-region="pioneer-trail" class="dropdown-item">⛰️ Mormon Pioneer Trail (1847)</button>
+            <button data-region="utah-west" class="dropdown-item">🏔️ Salt Lake Valley & Utah Temples (1847–1890)</button>
+            <button data-region="world-missions" class="dropdown-item">🌍 British Isles & Global Missions (1837–1890)</button>
+          </div>
+        </div>
+
+        <!-- Curated Guided Tours Button -->
+        <button id="storyToursBtn" class="btn btn-primary glow-gold" title="Explore Guided Historical Tours">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Guided Tours</span>
+        </button>
+
+        <!-- Location Quick Jump Select -->
+        <div class="header-quick-jump-container" title="Jump directly to any historic site">
+          <span class="header-quick-jump-icon">📍</span>
+          <select id="quickJumpSelect" class="header-quick-jump-select" aria-label="Jump to Location">
+            <option value="" disabled selected>Jump to Historic Site...</option>
+          </select>
+        </div>
+
+        <!-- Map Style Mode Dropdown -->
+        <div class="dropdown-container">
+          <button id="mapStyleToggle" class="btn btn-outline" title="Switch Map Base Style">
+            <span id="mapStyleIcon">📜</span>
+            <span id="mapStyleText" class="btn-text">Ancient Relief</span>
+          </button>
+          <div id="mapStyleDropdown" class="dropdown-menu">
+            <button data-style="parchment" class="dropdown-item">📜 Ancient Shaded Relief (Archival Parchment)</button>
+            <button data-style="satellite" class="dropdown-item">🛰️ Satellite Earth Terrain</button>
+            <button data-style="modern" class="dropdown-item">🗺️ Modern Roads & Boundaries</button>
+          </div>
+        </div>
+
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebarToggleBtn" class="btn btn-icon" title="Toggle Information Codex" aria-label="Toggle drawer">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </button>
+      </div>
+
+      <!-- Mobile Header Quick Actions -->
+      <div class="mobile-header-actions" id="mobileHeaderActions">
+        <button id="mobileSearchToggleBtn" class="mobile-icon-btn" title="Search places & revelations" aria-label="Search">🔍</button>
+        <button id="mobileCodexToggleBtn" class="mobile-icon-btn" title="Open Codex Dossier" aria-label="Codex">📜</button>
+      </div>
+    </header>
+
+    <!-- Filter Chips Bar -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-chip active" data-filter="all">
+        <span class="chip-dot"></span>
+        <span>All Visible</span>
+      </button>
+      <button class="filter-chip" data-filter="temple">
+        <span class="chip-dot"></span>
+        <span>🏛️ Historic Temples</span>
+      </button>
+      <button class="filter-chip" data-filter="sacred-site">
+        <span class="chip-dot"></span>
+        <span>🌲 Sacred Sites</span>
+      </button>
+      <button class="filter-chip" data-filter="revelation">
+        <span class="chip-dot"></span>
+        <span>📜 Places of Revelation</span>
+      </button>
+      <button class="filter-chip" data-filter="journeys">
+        <span class="chip-dot"></span>
+        <span>🚩 Historic Trails (Zion's Camp & Pioneer Trail)</span>
+      </button>
+      <button class="filter-chip" data-filter="homestead">
+        <span class="chip-dot"></span>
+        <span>🏡 Homesteads & Farms</span>
+      </button>
+      <button class="filter-chip" data-filter="jail-martyrdom">
+        <span class="chip-dot"></span>
+        <span>⛓️ Jails & Martyrdom</span>
+      </button>
+      <button class="filter-chip" data-filter="mission">
+        <span class="chip-dot"></span>
+        <span>🌍 Early World Missions</span>
+      </button>
+    </div>
+
+    <!-- Main Workspace (Map + Collapsible Right Sidebar) -->
+    <main class="main-workspace">
+      <!-- Leaflet Map Container -->
+      <div id="map"></div>
+
+      <!-- Floating Map Tour Viewer Bar -->
+      <div id="tourViewerBar" class="tour-viewer-bar">
+        <span id="tourStepCounter" class="tour-step-counter">Stop 1 of 5</span>
+        <span id="tourTitleText" class="tour-title-text">Tour Title</span>
+        <button id="tourPrevBtn" class="tour-nav-btn">◀ Prev</button>
+        <button id="tourNextBtn" class="tour-nav-btn">Next ▶</button>
+        <button id="tourExitBtn" class="tour-exit-btn" title="Exit Tour">&times;</button>
+      </div>
+
+      <!-- Map Era Badge Overlay -->
+      <div class="map-era-badge" id="mapEraBadge">
+        <span class="era-dot"></span>
+        <span>Doctrine and Covenants (~1805 – 1890)</span>
+      </div>
+
+      <!-- Right Collapsible Sidebar (Codex & Dossier) -->
+      <aside class="sidebar-panel" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-header-top">
+            <span class="sidebar-badge" id="sidebarBadge">Sacred Site</span>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Close Codex">&times;</button>
+          </div>
+          <h2 class="sidebar-title" id="sidebarTitle">The Sacred Grove</h2>
+          <span class="sidebar-subtitle" id="sidebarSubtitle">Manchester / Palmyra, New York</span>
+        </div>
+
+        <!-- Sidebar Navigation Tabs -->
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab-btn active" data-tab="tabOverview">Overview</button>
+          <button class="sidebar-tab-btn" data-tab="tabScriptures">Revelations & Verses</button>
+          <button class="sidebar-tab-btn" data-tab="tabSources">Primary Sources & JSP</button>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="sidebar-content">
+          <div class="tab-pane active" id="tabOverview"></div>
+          <div class="tab-pane" id="tabScriptures"></div>
+          <div class="tab-pane" id="tabSources"></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Bottom Chronological Timeline Bar -->
+    <footer class="app-timeline-bar" id="appTimelineBar">
+      <div class="timeline-top-row">
+        <div class="timeline-info-group">
+          <span class="timeline-step-badge" id="timelineStepBadge">Event 1 of 73</span>
+          <span class="timeline-current-title" id="timelineCurrentTitle">Birth of the Prophet Joseph Smith Jr.</span>
+          <span class="timeline-current-date" id="timelineCurrentDate">📅 Dec 23, 1805 • 📍 Sharon, Vermont</span>
+        </div>
+        <div class="timeline-controls">
+          <button id="timelinePrevBtn" class="timeline-btn" title="Previous Chronological Event">◀ Prev</button>
+          <button id="timelinePlayBtn" class="timeline-btn play-btn" title="Auto-play Chronological Sequence"><span>▶ Play Chronology</span></button>
+          <button id="timelineNextBtn" class="timeline-btn" title="Next Chronological Event">Next ▶</button>
+        </div>
+      </div>
+      <div class="timeline-slider-wrapper">
+        <input type="range" id="timelineSlider" class="timeline-slider" min="0" max="72" value="0" aria-label="Chronological Slider">
+      </div>
+      <div class="timeline-ticks">
+        <span class="timeline-tick-label">1805 Sharon</span>
+        <span class="timeline-tick-label">1820 First Vision</span>
+        <span class="timeline-tick-label">1829 Priesthood</span>
+        <span class="timeline-tick-label">1830 Fayette</span>
+        <span class="timeline-tick-label">1831 Kirtland</span>
+        <span class="timeline-tick-label">1834 Zion's Camp</span>
+        <span class="timeline-tick-label">1836 Kirtland Temple</span>
+        <span class="timeline-tick-label">1838 Far West</span>
+        <span class="timeline-tick-label">1844 Martyrdom</span>
+        <span class="timeline-tick-label">1847 Salt Lake</span>
+        <span class="timeline-tick-label">1877 St. George</span>
+        <span class="timeline-tick-label">1890 Manifesto</span>
+      </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+      <div class="mobile-nav-items">
+        <button class="mobile-nav-item active" data-target="map">
+          <span class="mobile-nav-icon">🗺️</span>
+          <span>Map</span>
+        </button>
+        <button class="mobile-nav-item" data-target="places">
+          <span class="mobile-nav-icon">📍</span>
+          <span>Places</span>
+        </button>
+        <button class="mobile-nav-item" data-target="chronology">
+          <span class="mobile-nav-icon">⏱️</span>
+          <span>Chronology</span>
+        </button>
+        <button class="mobile-nav-item" data-target="tours">
+          <span class="mobile-nav-icon">🚩</span>
+          <span>Tours</span>
+        </button>
+        <button class="mobile-nav-item" data-target="codex">
+          <span class="mobile-nav-icon">📜</span>
+          <span>Codex</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Bottom Sheet (Dossier Drawer) -->
+    <div class="mobile-bottom-sheet" id="mobileBottomSheet">
+      <div class="mobile-sheet-drag-handle"></div>
+      <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+    </div>
+
+    <!-- Mobile Search Modal Overlay -->
+    <div class="mobile-search-modal" id="mobileSearchModal">
+      <div class="mobile-search-header">
+        <input type="text" id="mobileSearchInput" placeholder="Search places, revelations, people..." autocomplete="off">
+        <button id="mobileSearchCloseBtn" class="mobile-search-close-btn">Cancel</button>
+      </div>
+      <div class="mobile-search-results" id="mobileSearchResults"></div>
+    </div>
+
+  </div><!-- /.app-container -->
+
+  <!-- ========================================================================
+       MODALS
+       ======================================================================== -->
+
+  <!-- Welcome Guide Modal -->
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">📜 Welcome to Doctrine & Covenants Geography</h2>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px;"><strong>Welcome to the Interactive Historical Atlas of the Doctrine & Covenants (~1805 – 1890)</strong>, built to accompany its sister scriptural atlases of the Old Testament, New Testament, and Book of Mormon.</p>
+        
+        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin: 14px 0 6px 0;">Key Capabilities:</h4>
+        <ul style="padding-left: 20px; margin-bottom: 14px;">
+          <li style="margin-bottom: 6px;"><strong>Strictly Chronological Sequence</strong>: While canonized D&C sections are not in chronological order (e.g. Section 1 was received in November 1831 in Hiram, OH, while Section 2 was received in September 1823 in Manchester, NY), this atlas places every revelation and historical milestone in <em>exact historical chronological order</em>.</li>
+          <li style="margin-bottom: 6px;"><strong>Dual Archival Links</strong>: Every site and revelation connects directly to authentic scripture text on <strong>ChurchofJesusChrist.org</strong> and original historical manuscript scans on <strong>JosephSmithPapers.org</strong>.</li>
+          <li style="margin-bottom: 6px;"><strong>100+ Authentic Historic Locations</strong>: Explore sacred sites, printing shops, homes, and temple sites across Vermont, New York, Pennsylvania, Ohio, Missouri, Illinois, Iowa, Nebraska, Wyoming, and Utah.</li>
+          <li style="margin-bottom: 6px;"><strong>Historical Expeditions</strong>: Follow exact routes for <strong>Zion's Camp (1834)</strong> and the <strong>Mormon Pioneer Trail (1846–1847)</strong>.</li>
+        </ul>
+
+        <p style="font-size: 13px; color: var(--ink-secondary); font-style: italic;">Use the timeline scrubber at the bottom to travel through Church History step by step, or click any map marker to inspect its dossier.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Distance & Pioneer Travel Calculator Modal -->
+  <div class="modal-overlay" id="travelCalcModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">📏 Pioneer Distances & Travel Calculator</h2>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 14px; font-size: 13.5px; color: var(--ink-secondary);">Calculate historical overland distances and estimated journey times by 19th-century pioneer modes of transportation.</p>
+        <div class="calculator-form-group">
+          <label class="calculator-label" for="calcFromSelect">Origin Point:</label>
+          <select id="calcFromSelect" class="calculator-select"></select>
+        </div>
+        <div class="calculator-form-group">
+          <label class="calculator-label" for="calcToSelect">Destination Point:</label>
+          <select id="calcToSelect" class="calculator-select"></select>
+        </div>
+        <button id="runCalcBtn" class="btn btn-primary glow-gold" style="width: 100%; justify-content: center; height: 38px;">Calculate Historic Journey</button>
+
+        <div id="calcResultsBox" class="calc-results-box">
+          <div class="calc-stat-row">
+            <span class="calc-stat-label">Straight-Line Distance:</span>
+            <span class="calc-stat-val" id="calcStraightDist">-</span>
+          </div>
+          <div class="calc-stat-row">
+            <span class="calc-stat-label">Estimated Overland Trail Distance:</span>
+            <span class="calc-stat-val" id="calcTrailDist">-</span>
+          </div>
+          <div class="calc-stat-row">
+            <span class="calc-stat-label">Wagon Train (Oxen/Mules):</span>
+            <span class="calc-stat-val" id="calcWagonDays">-</span>
+          </div>
+          <div class="calc-stat-row">
+            <span class="calc-stat-label">Handcart Company:</span>
+            <span class="calc-stat-val" id="calcHandcartDays">-</span>
+          </div>
+          <div class="calc-stat-row">
+            <span class="calc-stat-label">Walking on Foot:</span>
+            <span class="calc-stat-val" id="calcWalkingDays">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Life in 1800s Pioneer Era Modal -->
+  <div class="modal-overlay" id="lifeModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">🕯️ Frontier Life in the 19th Century</h2>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">Printing & Publishing</h4>
+        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">In 1829, Egbert B. Grandin operated a Smith-patented hand press in Palmyra, requiring printer's devils to hand-ink type with leather ink-balls and press sheets one by one. The first 5,000 copies of the Book of Mormon required 3 million impressions.</p>
+
+        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">Overland Travel & River Flatboats</h4>
+        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">Before transcontinental railways, traveling from New York to Missouri required canal boats on the Erie Canal, steamboats on the Ohio and Missouri rivers, or walking hundreds of miles through mud and malaria-ridden swamps.</p>
+
+        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">The Sacred Gathering</h4>
+        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">Latter-day Saints believed literally in the physical gathering of the righteous out of Babylon into Zion—moving successively from New York to Kirtland, Ohio, Jackson County and Far West, Missouri, Nauvoo, Illinois, and across the plains to the Salt Lake Valley.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guided Tours Modal -->
+  <div class="modal-overlay" id="toursModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">🚩 Curated Scripture & History Tours</h2>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="toursListContainer"></div>
+    </div>
+  </div>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Data Scripts -->
+  <script src="js/data/locations.js"></script>
+  <script src="js/data/chronologicalRevelations.js"></script>
+  <script src="js/data/journeys.js"></script>
+  <script src="js/data/regions.js"></script>
+  <script src="js/data/tours.js"></script>
+  <script src="js/data/placeDossiers.js"></script>
+
+  <!-- Controllers -->
+  <script src="js/mapController.js"></script>
+  <script src="js/timelineController.js"></script>
+  <script src="js/uiController.js"></script>
+  <script src="js/mobileShell.js"></script>
+
+  <!-- Application Bootstrap -->
+  <script src="js/app.js"></script>
+</body>
+</html>

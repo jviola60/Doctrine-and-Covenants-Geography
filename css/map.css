@@ -1,0 +1,260 @@
+/* ==========================================================================
+   DOCTRINE & COVENANTS GEOGRAPHY - MAP & LEAFLET STYLING
+   ========================================================================== */
+
+/* Leaflet Tile Layer Filters for Vintage Archival Look */
+.leaflet-tile-pane {
+  filter: contrast(102%) saturate(88%) brightness(98%);
+}
+
+.map-style-parchment .leaflet-tile-pane {
+  filter: sepia(35%) contrast(105%) brightness(95%) hue-rotate(-10deg);
+}
+
+.map-style-satellite .leaflet-tile-pane {
+  filter: none;
+}
+
+/* Custom Marker Styling */
+.custom-map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform var(--transition-fast);
+}
+
+.custom-map-marker:hover {
+  transform: scale(1.18);
+  z-index: 1000 !important;
+}
+
+.marker-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  border: 2px solid #fff;
+  font-size: 15px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+/* Marker Categories */
+.marker-pin.category-temple {
+  background: linear-gradient(135deg, #d4af37, #996515);
+  border-color: #fff9e6;
+  color: #fff;
+}
+
+.marker-pin.category-sacred-site {
+  background: linear-gradient(135deg, #2e6f40, #1b4d29);
+  border-color: #e8f5e9;
+  color: #fff;
+}
+
+.marker-pin.category-revelation {
+  background: linear-gradient(135deg, #1d4e89, #0d284a);
+  border-color: #e3f2fd;
+  color: #fff;
+}
+
+.marker-pin.category-homestead {
+  background: linear-gradient(135deg, #7c4819, #4a280b);
+  border-color: #efebe9;
+  color: #fff;
+}
+
+.marker-pin.category-jail-martyrdom {
+  background: linear-gradient(135deg, #8b2500, #4d1400);
+  border-color: #ffebee;
+  color: #fff;
+}
+
+.marker-pin.category-trail-landmark {
+  background: linear-gradient(135deg, #c5a059, #8c6d31);
+  border-color: #fff;
+  color: #fff;
+}
+
+.marker-pin.category-mission {
+  background: linear-gradient(135deg, #4a148c, #2a0845);
+  border-color: #ede7f6;
+  color: #fff;
+}
+
+/* Marker Active / Selected State */
+.custom-map-marker.active .marker-pin {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 4px var(--gold-glow), 0 4px 16px rgba(0, 0, 0, 0.45);
+  border-color: var(--gold-light);
+}
+
+.marker-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  opacity: 0;
+  pointer-events: none;
+  animation: pulse-ring 2s infinite ease-out;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Leaflet Popup Customization */
+.leaflet-popup-content-wrapper {
+  background: var(--bg-parchment-card) !important;
+  color: var(--ink-primary) !important;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid var(--border-sepia-dark) !important;
+  box-shadow: var(--shadow-elevated) !important;
+  padding: 0 !important;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.leaflet-popup-tip {
+  background: var(--bg-parchment-card) !important;
+  border: 1.5px solid var(--border-sepia-dark) !important;
+}
+
+.custom-popup-box {
+  padding: 14px 16px;
+  max-width: 290px;
+}
+
+.popup-header {
+  border-bottom: 1px solid var(--border-sepia);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.popup-badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bg-parchment-deep);
+  color: var(--leather-brown);
+  margin-bottom: 4px;
+}
+
+.popup-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.25;
+}
+
+.popup-location {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
+.popup-body {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  margin-bottom: 10px;
+}
+
+.popup-sections {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.popup-section-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  background: rgba(184, 134, 11, 0.15);
+  color: var(--leather-brown);
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 3px;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-sepia);
+}
+
+.popup-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--border-sepia);
+  background: var(--bg-parchment);
+  color: var(--ink-primary);
+  transition: all var(--transition-fast);
+}
+
+.popup-btn:hover {
+  background: var(--leather-brown);
+  color: #fff;
+  border-color: var(--leather-brown);
+}
+
+.popup-btn.primary {
+  background: var(--leather-brown);
+  color: #fff;
+  border-color: #553010;
+}
+
+.popup-btn.primary:hover {
+  background: #553010;
+}
+
+/* Tooltip Customization */
+.leaflet-tooltip {
+  background: rgba(42, 35, 24, 0.9) !important;
+  color: #fff !important;
+  border: 1px solid var(--gold-border) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(42, 35, 24, 0.9) !important;
+}
