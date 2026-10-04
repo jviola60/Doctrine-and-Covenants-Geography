@@ -176,6 +176,88 @@ const PLACE_DOSSIERS = {
       { name: "Official Declaration 2 (Priesthood Revelation)", url: "https://www.churchofjesuschrist.org/study/scriptures/dc-testament/od/2?lang=eng" }
     ],
     pioneerEraNote: "Today undergoing a historic multi-year seismic and architectural renovation to ensure the iconic temple stands for centuries to come."
+  },
+  "tiffin-oh": {
+    title: "Oliver Cowdery Law Office & Residence",
+    subheading: "Tiffin, Seneca County, Ohio (~30 miles SE of Bowling Green)",
+    overview: "Following his excommunication at Far West in April 1838, Oliver Cowdery—the primary scribe of the Book of Mormon and one of the Three Witnesses—moved to Tiffin, Ohio in 1840. For seven years, he maintained a distinguished law partnership with Joel W. Wilson, served as Seneca County prosecuting attorney, and co-edited the local Democratic newspaper. Although politically and professionally integrated into secular society, Cowdery consistently maintained his sacred testimony of the Book of Mormon, the ministry of the angel Moroni, and the restoration of the priesthood when pressed by colleagues and judges.",
+    historicalSignificance: [
+      "Oliver Cowdery practiced law in Tiffin from 1840 to 1847.",
+      "Elected prosecuting attorney of Seneca County, Ohio in 1842.",
+      "Steadfastly refused to deny his testimony of the Gold Plates and angel when questioned in courtrooms and private inquiries.",
+      "Maintained correspondence with family and Saints, laying the groundwork for his eventual 1848 journey to rejoin the Church at Council Bluffs."
+    ],
+    sectionsAssociated: ["D&C 6", "D&C 9", "D&C 13", "D&C 17", "D&C 18", "D&C 110 (Historical witness)"],
+    primarySources: [
+      { name: "Church History Topics: Oliver Cowdery", url: "https://www.churchofjesuschrist.org/study/history/topics/oliver-cowdery?lang=eng" },
+      { name: "Joseph Smith Papers: Directory Site — Tiffin, Ohio", url: "https://www.josephsmithpapers.org/site/tiffin-ohio" }
+    ],
+    pioneerEraNote: "In 1847, Cowdery moved to Elkhorn, Wisconsin, before traveling to Kanesville (Council Bluffs), Iowa, in the fall of 1848, where he addressed the Saints and was rebaptized."
+  },
+  "upper-sandusky-oh": {
+    title: "Wyandot Nation Encampment",
+    subheading: "Upper Sandusky, Wyandot County, Ohio",
+    overview: "In late November 1830, four newly appointed missionaries—Oliver Cowdery, Parley P. Pratt, Peter Whitmer Jr., and Ziba Peterson—traveled southwest through Ohio on their epic 1,500-mile journey to the western border of Missouri. Stopping at the Wyandot reservation in Upper Sandusky, they were warmly received by tribal chiefs and elders, spending several days preaching the Book of Mormon and the promises made to their ancient ancestors.",
+    historicalSignificance: [
+      "First organized preaching of the restored gospel to Native American tribes in modern history.",
+      "Fulfilled the mission mandate of D&C 28, D&C 30, and D&C 32.",
+      "Missionaries left copies of the Book of Mormon with tribal leaders before proceeding on to Cincinnati and Missouri."
+    ],
+    sectionsAssociated: ["D&C 28", "D&C 30", "D&C 32"],
+    primarySources: [
+      { name: "Church History Topics: Lamanite Mission", url: "https://www.churchofjesuschrist.org/study/history/topics/lamanite-mission?lang=eng" },
+      { name: "Joseph Smith Papers: Directory Site — Upper Sandusky, Ohio", url: "https://www.josephsmithpapers.org/site/upper-sandusky-ohio" }
+    ],
+    pioneerEraNote: "The Wyandot were among the last indigenous nations removed from Ohio to the West (in 1843). The site honors the early Saints' scriptural reverence for indigenous peoples."
+  },
+  "pontiac-mi": {
+    title: "Pontiac Branch & Mack Family Homestead",
+    subheading: "Pontiac, Oakland County, Michigan",
+    overview: "Pontiac was co-founded in 1818 by Col. Stephen Mack, brother of the Prophet's mother, Lucy Mack Smith. In 1831, Mother Smith visited Pontiac and boldly declared the Restoration to her relatives and neighbors. By 1834, a flourishing branch had been established by Jared Carter and other missionaries. In October 1834, the Prophet Joseph Smith traveled here with Oliver Cowdery, David Whitmer, and Frederick G. Williams to visit his cousins, preach to large congregations, and strengthen the Saints.",
+    historicalSignificance: [
+      "Joseph Smith Jr. visited Pontiac in October 1834 with Oliver Cowdery and David Whitmer.",
+      "Strong personal connection to Lucy Mack Smith and the prominent Mack pioneer family.",
+      "Early converts in Pontiac included future General Authorities and pioneer leaders, such as Samuel Bent."
+    ],
+    sectionsAssociated: ["D&C 52 (Michigan context)"],
+    primarySources: [
+      { name: "Church History in Michigan (Ensign Archive)", url: "https://www.churchofjesuschrist.org/study/ensign/1988/02/church-history-in-michigan?lang=eng" },
+      { name: "Joseph Smith Papers: Journal October 1834 (Visit to Michigan)", url: "https://www.josephsmithpapers.org/paper-summary/journal-1832-1834/60" },
+      { name: "Joseph Smith Papers: Directory Site — Pontiac, Michigan", url: "https://www.josephsmithpapers.org/site/pontiac-michigan" }
+    ],
+    pioneerEraNote: "Many faithful Michigan converts subsequently gathered to Kirtland, Missouri, Nauvoo, and the Salt Lake Valley."
+  },
+  "detroit-mi": {
+    title: "Detroit River Port & Frontier Gateway",
+    subheading: "Detroit, Wayne County, Michigan",
+    overview: "Throughout the 1830s and 1840s, Detroit was the primary Great Lakes gateway linking Lake Erie steamship lines with interior stage routes across Michigan and Upper Canada. Joseph Smith, Oliver Cowdery, and companions transited through Detroit during their October 1834 voyage, and dozens of early missionaries passed through the bustling river port while traveling between Ohio, Canada, and Illinois.",
+    historicalSignificance: [
+      "Major port of call for steamships traveling from Fairport Harbor / Cleveland, Ohio.",
+      "Joseph Smith and Three Witnesses members arrived at Detroit docks in October 1834.",
+      "Strategic launching point for missionary labors in Michigan Territory and southern Ontario."
+    ],
+    sectionsAssociated: [],
+    primarySources: [
+      { name: "Joseph Smith Papers: Directory Site — Detroit, Michigan", url: "https://www.josephsmithpapers.org/site/detroit-michigan" },
+      { name: "Church History Topics: Michigan Missions", url: "https://www.churchofjesuschrist.org/study/history/topics/michigan-missions?lang=eng" }
+    ],
+    pioneerEraNote: "Today metro Detroit is home to thousands of Latter-day Saints and the Detroit Michigan Temple (dedicated in 1999 in Bloomfield Hills)."
+  },
+  "elkhorn-wi": {
+    title: "Oliver Cowdery Wisconsin Residence",
+    subheading: "Elkhorn, Walworth County, Wisconsin",
+    overview: "In 1847, Oliver Cowdery moved from Tiffin, Ohio to Elkhorn, Wisconsin, where he established a law practice with his brother Lyman Cowdery. Respected for his legal acuity and integrity, Cowdery became co-editor of the Walworth County Democrat and was nominated for the Wisconsin State Assembly. In October 1848, his brother-in-law Phineas Young visited him in Elkhorn. Moved by deep spiritual promptings, Cowdery closed his affairs and departed immediately for Council Bluffs, Iowa, to reunite with the Church of Jesus Christ.",
+    historicalSignificance: [
+      "Final secular residence of Oliver Cowdery before his return to the Church.",
+      "Site of pivotal reconciliation conversations with Phineas Young in autumn 1848.",
+      "From Elkhorn, Cowdery commenced his historic journey to Kanesville where he testified before the Saints and was rebaptized."
+    ],
+    sectionsAssociated: ["Historical Witness Reconciliation"],
+    primarySources: [
+      { name: "Church History Topics: Oliver Cowdery", url: "https://www.churchofjesuschrist.org/study/history/topics/oliver-cowdery?lang=eng" },
+      { name: "Joseph Smith Papers: Directory Site — Elkhorn, Wisconsin", url: "https://www.josephsmithpapers.org/site/elkhorn-wisconsin" }
+    ],
+    pioneerEraNote: "After being rebaptized at Council Bluffs in November 1848, Oliver planned to travel to the Salt Lake Valley with the Saints, but succumbed to pulmonary tuberculosis in Richmond, Missouri in March 1850."
   }
 };
 

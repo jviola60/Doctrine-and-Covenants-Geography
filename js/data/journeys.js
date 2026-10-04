@@ -91,7 +91,7 @@ const HISTORIC_JOURNEYS = [
     color: "#2e6f40", // Forest Green
     dashArray: "4, 4",
     weight: 3,
-    description: "Oliver Cowdery, Parley P. Pratt, Peter Whitmer Jr., and Ziba Peterson traveled 1,500 miles on foot in winter from New York to the western borders of Missouri. Their stop in Kirtland, Ohio converted over 130 people including Sidney Rigdon, changing Church history.",
+    description: "Oliver Cowdery, Parley P. Pratt, Peter Whitmer Jr., and Ziba Peterson traveled 1,500 miles on foot in winter from New York to the western borders of Missouri. Their stop in Kirtland, Ohio converted over 130 people including Sidney Rigdon, changing Church history. They also preached the restored gospel to the Wyandot Nation at Upper Sandusky, Ohio.",
     purpose: "Preaching Book of Mormon to Native American tribes and scouting Zion",
     dates: "October 1830 – January 1831",
     totalMiles: 1500,
@@ -99,7 +99,7 @@ const HISTORIC_JOURNEYS = [
       [42.8715, -76.8858], // Fayette, NY
       [42.8864, -78.8784], // Buffalo, NY
       [41.6267, -81.3644], // Kirtland, OH (Over 130 baptized!)
-      [41.4400, -82.7100], // Sandusky (Wyandot Nation), OH
+      [40.8267, -83.2827], // Upper Sandusky (Wyandot Nation), OH
       [39.1031, -84.5120], // Cincinnati, OH
       [38.6270, -90.1994], // St. Louis, MO
       [38.5767, -92.1735], // Jefferson City, MO
@@ -108,6 +108,7 @@ const HISTORIC_JOURNEYS = [
     milestones: [
       { name: "Fayette Commission", date: "Oct 1830", lat: 42.8715, lng: -76.8858 },
       { name: "Kirtland Spiritual Revival", date: "Nov 1830", lat: 41.6267, lng: -81.3644 },
+      { name: "Upper Sandusky (Wyandot Nation)", date: "Nov 1830", lat: 40.8267, lng: -83.2827 },
       { name: "Arrival in Independence", date: "Jan 13, 1831", lat: 39.0917, lng: -94.4283 }
     ]
   },

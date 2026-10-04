@@ -155,27 +155,63 @@ class MapController {
     this.journeyLayerGroup.clearLayers();
 
     journeys.forEach(journey => {
+      const baseWeight = journey.weight || 4;
       const polyline = L.polyline(journey.coordinates, {
         color: journey.color,
-        weight: journey.weight,
+        weight: baseWeight,
         dashArray: journey.dashArray === 'solid' ? null : journey.dashArray,
-        opacity: 0.85
+        opacity: 0.88
       });
 
-      polyline.bindTooltip(`<b>${journey.name}</b><br>${journey.totalMiles} miles`, { sticky: true });
+      // Hover feedback for easy interaction
+      polyline.on('mouseover', () => {
+        polyline.setStyle({ weight: baseWeight + 3, opacity: 1.0 });
+      });
+      polyline.on('mouseout', () => {
+        polyline.setStyle({ weight: baseWeight, opacity: 0.88 });
+      });
+
+      // Rich popup on click
+      const popupHtml = `
+        <div class="custom-popup-box" style="min-width: 260px; max-width: 320px;">
+          <div class="popup-header" style="border-left: 4px solid ${journey.color}; padding-left: 8px;">
+            <span class="popup-badge" style="background: ${journey.color}; color: #fff;">Historic Expedition</span>
+            <h3 class="popup-title" style="margin-top: 4px;">${journey.name}</h3>
+            <span class="popup-location">${journey.dates} • ${journey.totalMiles} Miles</span>
+          </div>
+          <div class="popup-body" style="padding: 10px 0 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-secondary);">
+            <p style="margin-bottom: 8px;"><strong style="color: var(--ink-primary);">Purpose:</strong> ${journey.purpose}</p>
+            <p>${journey.description}</p>
+          </div>
+        </div>
+      `;
+      polyline.bindPopup(popupHtml, { maxWidth: 340 });
+      polyline.bindTooltip(`<b>${journey.name}</b><br>${journey.dates} • ${journey.totalMiles} mi (Click for history)`, { sticky: true });
       this.journeyLayerGroup.addLayer(polyline);
 
       // Add small circle markers for milestones
       if (journey.milestones) {
         journey.milestones.forEach(m => {
           const circle = L.circleMarker([m.lat, m.lng], {
-            radius: 5,
+            radius: 6,
             color: journey.color,
-            fillColor: '#fff',
+            fillColor: '#ffffff',
             fillOpacity: 1,
-            weight: 2
+            weight: 2.5
           });
-          circle.bindTooltip(`<b>${journey.name} Milestone:</b><br>${m.name} (${m.date})`);
+          circle.bindTooltip(`<b>${m.name}</b><br>${m.date} (${journey.name})`);
+          circle.bindPopup(`
+            <div class="custom-popup-box">
+              <div class="popup-header">
+                <span class="popup-badge" style="background: ${journey.color}; color: #fff;">Milestone</span>
+                <h3 class="popup-title">${m.name}</h3>
+                <span class="popup-location">${m.date}</span>
+              </div>
+              <div class="popup-body" style="padding-top: 8px; font-size: 13px;">
+                <p><strong>Expedition:</strong> ${journey.name}</p>
+              </div>
+            </div>
+          `, { maxWidth: 280 });
           this.journeyLayerGroup.addLayer(circle);
         });
       }

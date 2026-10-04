@@ -225,6 +225,71 @@ const HISTORIC_LOCATIONS = [
     jspUrl: "https://www.josephsmithpapers.org/site/amherst-ohio",
     badge: "High Priesthood Ordained"
   },
+  {
+    id: "upper-sandusky-oh",
+    name: "Upper Sandusky (Wyandot Nation), Ohio",
+    category: "mission",
+    coordinates: [40.8267, -83.2827],
+    state: "Ohio",
+    era: "kirtland-ohio",
+    significance: "In November 1830, Oliver Cowdery, Parley P. Pratt, Peter Whitmer Jr., and Ziba Peterson stayed here on their 1,500-mile Lamanite Mission. They preached the Book of Mormon to the Wyandot people and were received with great respect and interest before continuing south to Cincinnati and Missouri.",
+    sectionsReceived: ["D&C 32 (Context)"],
+    churchUrl: "https://www.churchofjesuschrist.org/study/history/topics/lamanite-mission?lang=eng",
+    jspUrl: "https://www.josephsmithpapers.org/site/upper-sandusky-ohio",
+    badge: "Wyandot Mission (1830)"
+  },
+  {
+    id: "tiffin-oh",
+    name: "Tiffin, Seneca County, Ohio (Oliver Cowdery Law Office)",
+    category: "homestead",
+    coordinates: [41.1145, -83.1779],
+    state: "Ohio",
+    era: "kirtland-ohio",
+    significance: "Residence and law practice of Oliver Cowdery from 1840 to 1847 following his 1838 estrangement. He practiced law, served as Seneca County prosecuting attorney, and co-edited local newspapers while continually and steadfastly reaffirming his testimony of the Book of Mormon.",
+    sectionsReceived: [],
+    churchUrl: "https://www.churchofjesuschrist.org/study/history/topics/oliver-cowdery?lang=eng",
+    jspUrl: "https://www.josephsmithpapers.org/site/tiffin-ohio",
+    badge: "Oliver Cowdery Law Practice"
+  },
+  {
+    id: "detroit-mi",
+    name: "Detroit, Wayne County, Michigan (Port & Gateway)",
+    category: "mission",
+    coordinates: [42.3314, -83.0458],
+    state: "Michigan",
+    era: "kirtland-ohio",
+    significance: "Critical Great Lakes port connecting Lake Erie and Lake Huron. Joseph Smith, Oliver Cowdery, David Whitmer, and Frederick G. Williams disembarked here by steamboat in October 1834 en route to visit the Pontiac Branch, and numerous early missionaries embarked here journeying to Upper Canada and the Midwest.",
+    sectionsReceived: [],
+    churchUrl: "https://www.churchofjesuschrist.org/study/ensign/1988/02/church-history-in-michigan?lang=eng",
+    jspUrl: "https://www.josephsmithpapers.org/site/detroit-michigan",
+    badge: "Port & Mission Gateway"
+  },
+  {
+    id: "pontiac-mi",
+    name: "Pontiac, Oakland County, Michigan (Mack Family & Branch)",
+    category: "mission",
+    coordinates: [42.6389, -83.2910],
+    state: "Michigan",
+    era: "kirtland-ohio",
+    significance: "Co-founded in 1818 by Joseph Smith's uncle Col. Stephen Mack. In 1831 Lucy Mack Smith visited her late brother's family and bore powerful testimony. In October 1834, Joseph Smith, Oliver Cowdery, David Whitmer, and Frederick G. Williams visited and preached to the flourishing Pontiac Branch.",
+    sectionsReceived: [],
+    churchUrl: "https://www.churchofjesuschrist.org/study/ensign/1988/02/church-history-in-michigan?lang=eng",
+    jspUrl: "https://www.josephsmithpapers.org/site/pontiac-michigan",
+    badge: "Joseph Smith 1834 Visit"
+  },
+  {
+    id: "elkhorn-wi",
+    name: "Elkhorn, Walworth County, Wisconsin (Oliver Cowdery)",
+    category: "homestead",
+    coordinates: [42.6728, -88.5445],
+    state: "Wisconsin",
+    era: "nauvoo-era",
+    significance: "Residence and law office of Oliver Cowdery from 1847 to October 1848, where he was nominated for the Wisconsin state legislature. In October 1848, after meeting with Phineas Young, he decided to travel to Council Bluffs (Kanesville) to rejoin the Saints.",
+    sectionsReceived: [],
+    churchUrl: "https://www.churchofjesuschrist.org/study/history/topics/oliver-cowdery?lang=eng",
+    jspUrl: "https://www.josephsmithpapers.org/site/elkhorn-wisconsin",
+    badge: "Cowdery Pre-Reunion"
+  },
 
   // ==========================================
   // MISSOURI (ZION, FAR WEST & LIBERTY)
@@ -504,11 +569,11 @@ const HISTORIC_LOCATIONS = [
     coordinates: [41.2619, -95.8608],
     state: "Iowa",
     era: "pioneer-exodus",
-    significance: "Mormon Battalion mustered here in July 1846. First Presidency reorganized with Brigham Young as President in a log tabernacle on December 27, 1847.",
-    sectionsReceived: ["Milestone: First Presidency Reorganized"],
+    significance: "Mormon Battalion mustered here in July 1846. First Presidency reorganized with Brigham Young on December 27, 1847. In November 1848, Oliver Cowdery addressed the Saints in the Log Tabernacle bearing solemn testimony, and was rebaptized by Elder Orson Hyde on November 12, 1848.",
+    sectionsReceived: ["Milestone: First Presidency Reorganized", "Milestone: Oliver Cowdery Rebaptized"],
     churchUrl: "https://www.churchofjesuschrist.org/learn/locations/kanesville-tabernacle?lang=eng",
     jspUrl: "https://www.josephsmithpapers.org/site/kanesville-iowa",
-    badge: "Kanesville Tabernacle"
+    badge: "Tabernacle & Cowdery Rebaptism"
   },
   {
     id: "winter-quarters-ne",
