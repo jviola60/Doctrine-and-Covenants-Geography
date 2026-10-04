@@ -20,18 +20,24 @@
   filter: none;
 }
 
-/* Custom Marker Styling */
+/* Custom Marker Styling
+   NOTE: Leaflet positions .leaflet-marker-icon via position:absolute + transform.
+   Never set position/transform/transition on the outer marker element, or markers
+   drift away from their coordinates when zooming. Apply effects to .marker-pin. */
 .custom-map-marker {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transition: transform var(--transition-fast);
+  background: transparent;
+  border: none;
 }
 
 .custom-map-marker:hover {
-  transform: scale(1.18);
   z-index: 1000 !important;
+}
+
+.custom-map-marker:hover .marker-pin {
+  transform: scale(1.18);
 }
 
 .marker-pin {
