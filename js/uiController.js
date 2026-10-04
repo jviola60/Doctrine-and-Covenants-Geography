@@ -198,12 +198,15 @@ class UIController {
         if (style === 'satellite') {
           if (iconEl) iconEl.textContent = '🛰️';
           if (textEl) textEl.textContent = 'Satellite';
+        } else if (style === 'relief') {
+          if (iconEl) iconEl.textContent = '🏔️';
+          if (textEl) textEl.textContent = 'Shaded Relief';
         } else if (style === 'modern') {
           if (iconEl) iconEl.textContent = '🗺️';
           if (textEl) textEl.textContent = 'Modern';
         } else {
           if (iconEl) iconEl.textContent = '📜';
-          if (textEl) textEl.textContent = 'Ancient Relief';
+          if (textEl) textEl.textContent = 'Historic Topo';
         }
       });
     });

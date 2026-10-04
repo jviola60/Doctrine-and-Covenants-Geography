@@ -42,25 +42,37 @@ class MapController {
     }
 
     const mapContainer = document.getElementById('map');
-    mapContainer.classList.remove('map-style-parchment', 'map-style-satellite', 'map-style-modern');
+    mapContainer.classList.remove('map-style-parchment', 'map-style-relief', 'map-style-satellite', 'map-style-modern');
 
     if (styleName === 'satellite') {
       this.currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxNativeZoom: 18,
         maxZoom: 18
       });
       mapContainer.classList.add('map-style-satellite');
+    } else if (styleName === 'relief') {
+      this.currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri World Shaded Relief',
+        maxNativeZoom: 13,
+        maxZoom: 18,
+        className: 'parchment-tiles'
+      });
+      mapContainer.classList.add('map-style-relief');
     } else if (styleName === 'modern') {
       this.currentTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
+        maxNativeZoom: 19,
         maxZoom: 19
       });
       mapContainer.classList.add('map-style-modern');
     } else {
-      // Default: Parchment / Antiquarian CartoDB Positron
-      this.currentTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; CartoDB &copy; OpenStreetMap contributors',
-        maxZoom: 19
+      // Default: Parchment / Esri World Topographic Map with Archival Sepia Filter
+      this.currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri World Topo Map &mdash; National Geographic, DeLorme, NAVTEQ, USGS',
+        maxNativeZoom: 19,
+        maxZoom: 19,
+        className: 'parchment-tiles'
       });
       mapContainer.classList.add('map-style-parchment');
     }

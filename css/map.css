@@ -3,15 +3,20 @@
    ========================================================================== */
 
 /* Leaflet Tile Layer Filters for Vintage Archival Look */
-.leaflet-tile-pane {
-  filter: contrast(102%) saturate(88%) brightness(98%);
+.parchment-tiles {
+  filter: sepia(0.42) saturate(0.85) contrast(1.08) brightness(0.97) hue-rotate(-8deg);
 }
 
-.map-style-parchment .leaflet-tile-pane {
-  filter: sepia(35%) contrast(105%) brightness(95%) hue-rotate(-10deg);
+.map-style-parchment .parchment-tiles {
+  filter: sepia(0.40) saturate(0.88) contrast(1.06) brightness(0.96) hue-rotate(-6deg);
 }
 
-.map-style-satellite .leaflet-tile-pane {
+.map-style-relief .parchment-tiles {
+  filter: sepia(0.50) saturate(0.80) contrast(1.10) brightness(0.95) hue-rotate(-10deg);
+}
+
+.map-style-satellite .leaflet-tile-pane,
+.map-style-modern .leaflet-tile-pane {
   filter: none;
 }
 
