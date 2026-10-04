@@ -60,8 +60,10 @@ class MapController {
       });
       mapContainer.classList.add('map-style-relief');
     } else if (styleName === 'modern') {
-      this.currentTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
+      // Esri World Street Map (OpenStreetMap's tile servers block requests without a
+      // valid Referer, e.g. file:// pages, and disallow heavy app usage).
+      this.currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
         maxNativeZoom: 19,
         maxZoom: 19
       });
