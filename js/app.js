@@ -25,38 +25,43 @@ class Application {
       });
     }
 
-    // Default select Palmyra / Sacred Grove
-    this.selectLocation('sacred-grove-ny', false);
+    // Default select Palmyra / Sacred Grove on desktop, closed on mobile
+    this.selectLocation('sacred-grove-ny', false, false);
   }
 
-  selectLocation(locId, panTo = true) {
+  selectLocation(locId, panTo = true, openOnMobile = true) {
     this.currentLocationId = locId;
     const loc = HISTORIC_LOCATIONS.find(l => l.id === locId);
     if (!loc) return;
 
     this.mapController.highlightLocation(locId, panTo);
 
-    // Update Desktop Sidebar
+    // Update Sidebar
     this.renderLocationToSidebar(loc);
 
-    // Expand sidebar if collapsed
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar && sidebar.classList.contains('collapsed')) {
-      sidebar.classList.remove('collapsed');
+    // Mobile vs Desktop Drawer Management
+    if (window.innerWidth <= 768) {
+      if (openOnMobile && this.mobileShell) {
+        this.mobileShell.openPeekSheet();
+      }
+    } else {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar && sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+      }
     }
-
-    // Update Mobile Sheet
-    this.renderLocationToMobileSheet(loc);
   }
 
   renderLocationToSidebar(loc) {
     const titleEl = document.getElementById('sidebarTitle');
     const subEl = document.getElementById('sidebarSubtitle');
     const badgeEl = document.getElementById('sidebarBadge');
+    const confEl = document.getElementById('sidebarConfidencePill');
 
     if (titleEl) titleEl.textContent = loc.name;
     if (subEl) subEl.textContent = `${loc.state} • Coordinates: ${loc.coordinates[0].toFixed(4)}°N, ${loc.coordinates[1].toFixed(4)}°W`;
     if (badgeEl) badgeEl.textContent = loc.badge || loc.category;
+    if (confEl) confEl.textContent = loc.badge || 'VERIFIED SITE';
 
     const dossier = PLACE_DOSSIERS[loc.id];
 
@@ -198,16 +203,23 @@ class Application {
     this.mobileShell.updateSheetContent(html);
   }
 
-  displayChronologicalEvent(event) {
+  displayChronologicalEvent(event, openOnMobile = false) {
     if (!event) return;
 
     const titleEl = document.getElementById('sidebarTitle');
     const subEl = document.getElementById('sidebarSubtitle');
     const badgeEl = document.getElementById('sidebarBadge');
+    const confEl = document.getElementById('sidebarConfidencePill');
 
     if (titleEl) titleEl.textContent = `${event.section}: ${event.title}`;
     if (subEl) subEl.textContent = `📅 ${event.dateDisplay} • 📍 ${event.locationName}`;
     if (badgeEl) badgeEl.textContent = `Chronological Order #${event.chronoOrder}`;
+    if (confEl) confEl.textContent = `CHRONO #${event.chronoOrder}`;
+
+    // Synchronize Top Floating Era Badge
+    if (this.mobileShell && event.era) {
+      this.mobileShell.updateEraBadge(event.era);
+    }
 
     const overviewTab = document.getElementById('tabOverview');
     if (overviewTab) {
@@ -260,28 +272,15 @@ class Application {
       `;
     }
 
-    // Expand sidebar if collapsed
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar && sidebar.classList.contains('collapsed')) {
-      sidebar.classList.remove('collapsed');
+    // On desktop, expand sidebar if collapsed
+    if (window.innerWidth > 768) {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar && sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+      }
+    } else if (openOnMobile && this.mobileShell) {
+      this.mobileShell.openPeekSheet();
     }
-
-    // Also update mobile bottom sheet
-    this.mobileShell.updateSheetContent(`
-      <div style="margin-bottom: 12px; border-bottom: 1px solid var(--border-sepia); padding-bottom: 10px;">
-        <span class="sidebar-badge">Chronological #${event.chronoOrder}</span>
-        <h2 style="font-family: var(--font-display); font-size: 18px; font-weight: 700; margin: 4px 0;">${event.section}: ${event.title}</h2>
-        <span style="font-family: var(--font-serif); font-size: 13px; color: var(--ink-secondary); font-style: italic;">📅 ${event.dateDisplay} • 📍 ${event.locationName}</span>
-      </div>
-      <p style="font-family: var(--font-serif); font-size: 15px; line-height: 1.6; margin-bottom: 12px;">${event.summary}</p>
-      <div class="scripture-callout">
-        <p class="scripture-quote" style="font-size: 14.5px;">"${event.keyVerses}"</p>
-      </div>
-      <div style="display: flex; gap: 8px; margin-top: 14px;">
-        <a href="${event.churchUrl}" target="_blank" rel="noopener" class="btn btn-outline" style="flex: 1; justify-content: center; font-size: 12px;">Church Site ↗</a>
-        <a href="${event.jspUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="flex: 1; justify-content: center; font-size: 12px;">JSP Papers ↗</a>
-      </div>
-    `);
   }
 }
 

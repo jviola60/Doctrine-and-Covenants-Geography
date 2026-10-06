@@ -163,5 +163,6 @@
 .timeline-tick-label {
   font-size: 10px;
   color: #9c8e7b;
+  -webkit-user-select: none;
   user-select: none;
 }

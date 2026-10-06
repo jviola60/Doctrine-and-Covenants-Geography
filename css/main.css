@@ -208,6 +208,7 @@ html, body {
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -497,8 +498,13 @@ html, body {
   padding: 0 16px;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none;
   z-index: 980;
+}
+
+@supports (scrollbar-width: none) {
+  .filter-bar {
+    scrollbar-width: none;
+  }
 }
 
 .filter-bar::-webkit-scrollbar {
@@ -520,6 +526,7 @@ html, body {
   color: var(--ink-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -591,6 +598,7 @@ html, body {
   cursor: pointer;
   box-shadow: var(--shadow-medium);
   transition: all var(--transition-fast);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -618,6 +626,7 @@ html, body {
   align-items: center;
   gap: 8px;
   box-shadow: var(--shadow-medium);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   border: 1px solid var(--gold-border);
 }

@@ -243,20 +243,22 @@ class MapController {
   }
 
   filterMarkers(category) {
-    if (category === 'all') {
+    if (!category || category === 'all') {
       this.renderLocations(HISTORIC_LOCATIONS);
-      this.journeyLayerGroup.addTo(this.map);
+      this.renderJourneys(HISTORIC_JOURNEYS);
       return;
     }
 
     if (category === 'journeys') {
-      this.markerLayerGroup.clearLayers();
-      this.journeyLayerGroup.addTo(this.map);
+      const trailLocs = HISTORIC_LOCATIONS.filter(loc => loc.category === 'trail-landmark');
+      this.renderLocations(trailLocs);
+      this.renderJourneys(HISTORIC_JOURNEYS);
       return;
     }
 
     const filtered = HISTORIC_LOCATIONS.filter(loc => loc.category === category);
     this.renderLocations(filtered);
+    this.journeyLayerGroup.clearLayers();
   }
 }
 

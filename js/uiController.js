@@ -150,6 +150,10 @@ class UIController {
     });
   }
 
+  filterLocations(filter) {
+    this.mapCtrl.filterMarkers(filter);
+  }
+
   setupRegionsDropdown() {
     const btn = document.getElementById('regionSelectBtn');
     const menu = document.getElementById('regionDropdown');
@@ -256,10 +260,14 @@ class UIController {
       });
     }
 
-    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn') || document.getElementById('closeSidebarBtn');
     if (sidebarCloseBtn && sidebar) {
       sidebarCloseBtn.addEventListener('click', () => {
-        sidebar.classList.add('collapsed');
+        if (window.innerWidth <= 768 && window.app && window.app.mobileShell) {
+          window.app.mobileShell.closeCodexSheet();
+        } else {
+          sidebar.classList.add('collapsed');
+        }
       });
     }
   }

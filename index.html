@@ -26,12 +26,12 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=1.0">
-  <link rel="stylesheet" href="css/map.css?v=1.0">
-  <link rel="stylesheet" href="css/sidebar.css?v=1.0">
-  <link rel="stylesheet" href="css/timeline.css?v=1.0">
-  <link rel="stylesheet" href="css/components.css?v=1.0">
-  <link rel="stylesheet" href="css/mobile.css?v=1.0">
+  <link rel="stylesheet" href="css/main.css?v=2.0">
+  <link rel="stylesheet" href="css/map.css?v=2.0">
+  <link rel="stylesheet" href="css/sidebar.css?v=2.0">
+  <link rel="stylesheet" href="css/timeline.css?v=2.0">
+  <link rel="stylesheet" href="css/components.css?v=2.0">
+  <link rel="stylesheet" href="css/mobile.css?v=2.0">
 
   <!-- Mobile Viewport & Phone Shell Detection -->
   <script>
@@ -254,32 +254,50 @@
         <button id="tourExitBtn" class="tour-exit-btn" title="Exit Tour">&times;</button>
       </div>
 
-      <!-- Map Era Badge Overlay -->
-      <div class="map-era-badge" id="mapEraBadge">
-        <span class="era-dot"></span>
-        <span>Doctrine and Covenants (~1805 – 1890)</span>
+      <!-- Top Floating Era Capsule Badge -->
+      <div class="floating-era-badge" id="floatingEraBadge" title="Tap to toggle era details">
+        <div class="floating-era-header" id="floatingEraHeader">
+          <span class="era-live-beacon" title="Live Era Map Sync"></span>
+          <span class="floating-era-tag" id="floatingEraTag">ERA:</span>
+          <span class="floating-era-title" id="floatingEraTitle">~1805 – 1830 • Early Restoration & New York</span>
+          <span class="era-dropdown-caret" id="eraDropdownCaret" aria-hidden="true">▾</span>
+        </div>
+        <div class="floating-era-body" id="floatingEraBody">
+          <p class="floating-era-desc" id="floatingEraDesc">Foundational years of the Restoration: Joseph Smith's youth, the First Vision, retrieval and translation of the Gold Plates, and the organization of the Church.</p>
+          <div class="floating-era-featured" id="floatingEraFeatured">
+            <span class="era-featured-label">Featured Sites:</span>
+            <div class="era-featured-chips" id="floatingEraChips"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Right Collapsible Sidebar (Codex & Dossier) -->
-      <aside class="sidebar-panel" id="sidebar">
+      <aside class="sidebar-panel detail-sidebar closed" id="sidebar" aria-label="Historical Codex Dossier">
+        <div class="mobile-sheet-drag-handle" id="mobileDragHandle" aria-hidden="true"></div>
         <div class="sidebar-header">
-          <div class="sidebar-header-top">
-            <span class="sidebar-badge" id="sidebarBadge">Sacred Site</span>
-            <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Close Codex">&times;</button>
+          <div class="sidebar-header-info">
+            <div class="sidebar-badge-row">
+              <span class="sidebar-badge" id="sidebarBadge">Sacred Site</span>
+              <span class="sidebar-confidence-pill" id="sidebarConfidencePill">Historic Site</span>
+            </div>
+            <h2 class="sidebar-title" id="sidebarTitle">The Sacred Grove</h2>
+            <span class="sidebar-subtitle" id="sidebarSubtitle">Manchester / Palmyra, New York</span>
           </div>
-          <h2 class="sidebar-title" id="sidebarTitle">The Sacred Grove</h2>
-          <span class="sidebar-subtitle" id="sidebarSubtitle">Manchester / Palmyra, New York</span>
+          <div class="sidebar-header-actions">
+            <button id="mobileExpandCodexBtn" class="mobile-expand-btn" aria-label="Toggle Full Codex">⌃ Full Codex</button>
+            <button id="closeSidebarBtn" class="close-btn" aria-label="Close sidebar">✕</button>
+          </div>
         </div>
 
         <!-- Sidebar Navigation Tabs -->
-        <div class="sidebar-tabs">
+        <div class="sidebar-tabs" id="sidebarTabs">
           <button class="sidebar-tab-btn active" data-tab="tabOverview">Overview</button>
           <button class="sidebar-tab-btn" data-tab="tabScriptures">Revelations & Verses</button>
           <button class="sidebar-tab-btn" data-tab="tabSources">Primary Sources & JSP</button>
         </div>
 
         <!-- Sidebar Content -->
-        <div class="sidebar-content">
+        <div class="sidebar-content" id="sidebarContent">
           <div class="tab-pane active" id="tabOverview"></div>
           <div class="tab-pane" id="tabScriptures"></div>
           <div class="tab-pane" id="tabSources"></div>
@@ -288,7 +306,7 @@
     </main>
 
     <!-- Bottom Chronological Timeline Bar -->
-    <footer class="app-timeline-bar" id="appTimelineBar">
+    <footer class="app-timeline-bar app-timeline-footer" id="appTimelineBar">
       <div class="timeline-top-row">
         <div class="timeline-info-group">
           <span class="timeline-step-badge" id="timelineStepBadge">Event 1 of 73</span>
@@ -320,36 +338,126 @@
       </div>
     </footer>
 
-    <!-- Mobile Bottom Navigation Bar -->
-    <nav class="mobile-bottom-nav" id="mobileBottomNav">
-      <div class="mobile-nav-items">
-        <button class="mobile-nav-item active" data-target="map">
-          <span class="mobile-nav-icon">🗺️</span>
-          <span>Map</span>
-        </button>
-        <button class="mobile-nav-item" data-target="places">
-          <span class="mobile-nav-icon">📍</span>
-          <span>Places</span>
-        </button>
-        <button class="mobile-nav-item" data-target="chronology">
-          <span class="mobile-nav-icon">⏱️</span>
-          <span>Chronology</span>
-        </button>
-        <button class="mobile-nav-item" data-target="tours">
-          <span class="mobile-nav-icon">🚩</span>
-          <span>Tours</span>
-        </button>
-        <button class="mobile-nav-item" data-target="codex">
-          <span class="mobile-nav-icon">📜</span>
-          <span>Codex</span>
-        </button>
-      </div>
+    <!-- Mobile Thumb-Friendly Bottom Navigation Bar (52px) -->
+    <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Mobile Navigation Bar">
+      <button class="mobile-bottom-btn active" id="mobBottomMapBtn" type="button" aria-label="Return to Map View">
+        <span class="mobile-bottom-icon">🗺️</span>
+        <span>Map</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button" aria-label="Search Places">
+        <span class="mobile-bottom-icon">🔍</span>
+        <span>Search</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button" aria-label="Filter Map Layers">
+        <span class="mobile-bottom-icon">⚙️</span>
+        <span>Filters</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button" aria-label="Scriptural Codex">
+        <span class="mobile-bottom-icon">📜</span>
+        <span>Codex</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomToolsBtn" type="button" aria-label="Atlas Tools & Menu">
+        <span class="mobile-bottom-icon">☰</span>
+        <span>Menu</span>
+      </button>
     </nav>
 
-    <!-- Mobile Bottom Sheet (Dossier Drawer) -->
-    <div class="mobile-bottom-sheet" id="mobileBottomSheet">
-      <div class="mobile-sheet-drag-handle"></div>
-      <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+    <!-- Mobile Bottom Sheet Backdrop -->
+    <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+
+    <!-- Mobile Slide-Out Navigation Drawer -->
+    <aside class="mobile-nav-sheet" id="mobileNavSheet" aria-label="Mobile Navigation Menu">
+      <div class="mobile-nav-header">
+        <h3 class="mobile-nav-title">Atlas Tools & Navigation</h3>
+        <button class="mobile-nav-close" id="closeMobileNavBtn" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="mobile-nav-content">
+        <div class="mobile-menu-section">
+          <div class="mobile-menu-heading">Guides & Tools</div>
+          <button class="mobile-menu-item" id="mobWelcomeGuideBtn">📜 Welcome Guide</button>
+          <button class="mobile-menu-item" id="mobTravelCalcBtn">📏 Distances & Travel Calculator</button>
+          <button class="mobile-menu-item" id="mobLifeBackThenBtn">🕯️ Frontier Life in the 1800s</button>
+          <button class="mobile-menu-item" id="mobStoryToursBtn">🚩 Curated Guided Tours</button>
+        </div>
+
+        <div class="mobile-menu-section">
+          <div class="mobile-menu-heading">Historical Regions</div>
+          <div class="mobile-menu-grid">
+            <button class="mobile-menu-item region-item" data-region="all-overview">🗺️ All Regions (Overview)</button>
+            <button class="mobile-menu-item region-item" data-region="new-york-early">📜 New York & PA (1805–1831)</button>
+            <button class="mobile-menu-item region-item" data-region="kirtland-ohio">🏛️ Kirtland & Hiram (1831–1838)</button>
+            <button class="mobile-menu-item region-item" data-region="missouri-zion">📍 Jackson County (1831–1833)</button>
+            <button class="mobile-menu-item region-item" data-region="missouri-far-west">⚔️ Far West & Liberty (1838–1839)</button>
+            <button class="mobile-menu-item region-item" data-region="nauvoo-illinois">🌊 Nauvoo & Carthage (1839–1846)</button>
+            <button class="mobile-menu-item region-item" data-region="pioneer-exodus">⛺ Iowa & Winter Quarters (1846–1847)</button>
+            <button class="mobile-menu-item region-item" data-region="pioneer-trail">⛰️ Mormon Pioneer Trail (1847)</button>
+            <button class="mobile-menu-item region-item" data-region="utah-west">🏔️ Salt Lake & Utah Temples (1847–1890)</button>
+            <button class="mobile-menu-item region-item" data-region="world-missions">🌍 Early World Missions</button>
+          </div>
+        </div>
+
+        <div class="mobile-menu-section">
+          <div class="mobile-menu-heading">Map Base Styles</div>
+          <div class="mobile-menu-grid">
+            <button class="mobile-menu-item map-style-btn" data-style="parchment">📜 Historic Topo Relief</button>
+            <button class="mobile-menu-item map-style-btn" data-style="relief">🏔️ Pure Terrain Relief</button>
+            <button class="mobile-menu-item map-style-btn" data-style="satellite">🛰️ Satellite Earth</button>
+            <button class="mobile-menu-item map-style-btn" data-style="modern">🗺️ Modern Roads</button>
+          </div>
+        </div>
+
+        <div class="mobile-menu-section">
+          <div class="mobile-menu-heading">Companion Scriptural Atlases</div>
+          <a href="https://jviola60.github.io/old-testament-geography/" target="_blank" rel="noopener" class="mobile-menu-item">🕎 Old Testament Atlas ↗</a>
+          <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener" class="mobile-menu-item">✝️ New Testament Atlas ↗</a>
+          <a href="https://jviola60.github.io/book-of-mormon-geography/" target="_blank" rel="noopener" class="mobile-menu-item">🪙 Book of Mormon Atlas ↗</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Filter Bottom Sheet -->
+    <div class="mobile-filter-sheet" id="mobileFiltersSheet" aria-label="Mobile Filter Options">
+      <div class="mobile-sheet-drag-handle" id="mobileFiltersDragHandle"></div>
+      <div class="mobile-sheet-header">
+        <h3 class="mobile-sheet-title">Filter Historic Landmarks</h3>
+        <button class="close-btn" id="closeMobileFiltersBtn">&times;</button>
+      </div>
+      <div class="mobile-sheet-body">
+        <div class="mobile-filter-chips-grid">
+          <button class="filter-chip active" data-filter="all">
+            <span class="chip-dot"></span>
+            <span>All Visible</span>
+          </button>
+          <button class="filter-chip" data-filter="temple">
+            <span class="chip-dot"></span>
+            <span>🏛️ Historic Temples</span>
+          </button>
+          <button class="filter-chip" data-filter="sacred-site">
+            <span class="chip-dot"></span>
+            <span>🌲 Sacred Sites</span>
+          </button>
+          <button class="filter-chip" data-filter="revelation">
+            <span class="chip-dot"></span>
+            <span>📜 Places of Revelation</span>
+          </button>
+          <button class="filter-chip" data-filter="journeys">
+            <span class="chip-dot"></span>
+            <span>🚩 Historic Trails</span>
+          </button>
+          <button class="filter-chip" data-filter="homestead">
+            <span class="chip-dot"></span>
+            <span>🏡 Homesteads & Farms</span>
+          </button>
+          <button class="filter-chip" data-filter="jail-martyrdom">
+            <span class="chip-dot"></span>
+            <span>⛓️ Jails & Martyrdom</span>
+          </button>
+          <button class="filter-chip" data-filter="mission">
+            <span class="chip-dot"></span>
+            <span>🌍 World Missions</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Mobile Search Modal Overlay -->
@@ -375,17 +483,17 @@
         <button class="modal-close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="margin-bottom: 12px;"><strong>Welcome to the Interactive Historical Atlas of the Doctrine & Covenants (~1805 – 1890)</strong>, built to accompany its sister scriptural atlases of the Old Testament, New Testament, and Book of Mormon.</p>
+        <p class="welcome-intro"><strong>Welcome to the Interactive Historical Atlas of the Doctrine & Covenants (~1805 – 1890)</strong>, built to accompany its sister scriptural atlases of the Old Testament, New Testament, and Book of Mormon.</p>
         
-        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin: 14px 0 6px 0;">Key Capabilities:</h4>
-        <ul style="padding-left: 20px; margin-bottom: 14px;">
-          <li style="margin-bottom: 6px;"><strong>Strictly Chronological Sequence</strong>: While canonized D&C sections are not in chronological order (e.g. Section 1 was received in November 1831 in Hiram, OH, while Section 2 was received in September 1823 in Manchester, NY), this atlas places every revelation and historical milestone in <em>exact historical chronological order</em>.</li>
-          <li style="margin-bottom: 6px;"><strong>Dual Archival Links</strong>: Every site and revelation connects directly to authentic scripture text on <strong>ChurchofJesusChrist.org</strong> and original historical manuscript scans on <strong>JosephSmithPapers.org</strong>.</li>
-          <li style="margin-bottom: 6px;"><strong>100+ Authentic Historic Locations</strong>: Explore sacred sites, printing shops, homes, and temple sites across Vermont, New York, Pennsylvania, Ohio, Missouri, Illinois, Iowa, Nebraska, Wyoming, and Utah.</li>
-          <li style="margin-bottom: 6px;"><strong>Historical Expeditions</strong>: Follow exact routes for <strong>Zion's Camp (1834)</strong> and the <strong>Mormon Pioneer Trail (1846–1847)</strong>.</li>
+        <h4 class="modal-section-heading">Key Capabilities:</h4>
+        <ul class="welcome-features-list">
+          <li class="welcome-feature-item"><strong>Strictly Chronological Sequence</strong>: While canonized D&C sections are not in chronological order (e.g. Section 1 was received in November 1831 in Hiram, OH, while Section 2 was received in September 1823 in Manchester, NY), this atlas places every revelation and historical milestone in <em>exact historical chronological order</em>.</li>
+          <li class="welcome-feature-item"><strong>Dual Archival Links</strong>: Every site and revelation connects directly to authentic scripture text on <strong>ChurchofJesusChrist.org</strong> and original historical manuscript scans on <strong>JosephSmithPapers.org</strong>.</li>
+          <li class="welcome-feature-item"><strong>100+ Authentic Historic Locations</strong>: Explore sacred sites, printing shops, homes, and temple sites across Vermont, New York, Pennsylvania, Ohio, Missouri, Illinois, Iowa, Nebraska, Wyoming, and Utah.</li>
+          <li class="welcome-feature-item"><strong>Historical Expeditions</strong>: Follow exact routes for <strong>Zion's Camp (1834)</strong> and the <strong>Mormon Pioneer Trail (1846–1847)</strong>.</li>
         </ul>
 
-        <p style="font-size: 13px; color: var(--ink-secondary); font-style: italic;">Use the timeline scrubber at the bottom to travel through Church History step by step, or click any map marker to inspect its dossier.</p>
+        <p class="welcome-tip">Use the timeline scrubber at the bottom to travel through Church History step by step, or click any map marker to inspect its dossier.</p>
       </div>
     </div>
   </div>
@@ -398,7 +506,7 @@
         <button class="modal-close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="margin-bottom: 14px; font-size: 13.5px; color: var(--ink-secondary);">Calculate historical overland distances and estimated journey times by 19th-century pioneer modes of transportation.</p>
+        <p class="calc-intro-text">Calculate historical overland distances and estimated journey times by 19th-century pioneer modes of transportation.</p>
         <div class="calculator-form-group">
           <label class="calculator-label" for="calcFromSelect">Origin Point:</label>
           <select id="calcFromSelect" class="calculator-select"></select>
@@ -407,7 +515,7 @@
           <label class="calculator-label" for="calcToSelect">Destination Point:</label>
           <select id="calcToSelect" class="calculator-select"></select>
         </div>
-        <button id="runCalcBtn" class="btn btn-primary glow-gold" style="width: 100%; justify-content: center; height: 38px;">Calculate Historic Journey</button>
+        <button id="runCalcBtn" class="btn btn-primary glow-gold btn-calc-full">Calculate Historic Journey</button>
 
         <div id="calcResultsBox" class="calc-results-box">
           <div class="calc-stat-row">
@@ -443,14 +551,14 @@
         <button class="modal-close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">Printing & Publishing</h4>
-        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">In 1829, Egbert B. Grandin operated a Smith-patented hand press in Palmyra, requiring printer's devils to hand-ink type with leather ink-balls and press sheets one by one. The first 5,000 copies of the Book of Mormon required 3 million impressions.</p>
+        <h4 class="frontier-subheading">Printing & Publishing</h4>
+        <p class="frontier-paragraph">In 1829, Egbert B. Grandin operated a Smith-patented hand press in Palmyra, requiring printer's devils to hand-ink type with leather ink-balls and press sheets one by one. The first 5,000 copies of the Book of Mormon required 3 million impressions.</p>
 
-        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">Overland Travel & River Flatboats</h4>
-        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">Before transcontinental railways, traveling from New York to Missouri required canal boats on the Erie Canal, steamboats on the Ohio and Missouri rivers, or walking hundreds of miles through mud and malaria-ridden swamps.</p>
+        <h4 class="frontier-subheading">Overland Travel & River Flatboats</h4>
+        <p class="frontier-paragraph">Before transcontinental railways, traveling from New York to Missouri required canal boats on the Erie Canal, steamboats on the Ohio and Missouri rivers, or walking hundreds of miles through mud and malaria-ridden swamps.</p>
 
-        <h4 style="font-family: var(--font-display); color: var(--leather-brown); margin-bottom: 6px;">The Sacred Gathering</h4>
-        <p style="font-family: var(--font-serif); font-size: 15px; margin-bottom: 12px;">Latter-day Saints believed literally in the physical gathering of the righteous out of Babylon into Zion—moving successively from New York to Kirtland, Ohio, Jackson County and Far West, Missouri, Nauvoo, Illinois, and across the plains to the Salt Lake Valley.</p>
+        <h4 class="frontier-subheading">The Sacred Gathering</h4>
+        <p class="frontier-paragraph">Latter-day Saints believed literally in the physical gathering of the righteous out of Babylon into Zion—moving successively from New York to Kirtland, Ohio, Jackson County and Far West, Missouri, Nauvoo, Illinois, and across the plains to the Salt Lake Valley.</p>
       </div>
     </div>
   </div>
@@ -478,12 +586,12 @@
   <script src="js/data/placeDossiers.js"></script>
 
   <!-- Controllers -->
-  <script src="js/mapController.js"></script>
-  <script src="js/timelineController.js"></script>
-  <script src="js/uiController.js"></script>
-  <script src="js/mobileShell.js"></script>
+  <script src="js/mapController.js?v=2.0"></script>
+  <script src="js/timelineController.js?v=2.0"></script>
+  <script src="js/uiController.js?v=2.0"></script>
+  <script src="js/mobileShell.js?v=2.0"></script>
 
   <!-- Application Bootstrap -->
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=2.0"></script>
 </body>
 </html>

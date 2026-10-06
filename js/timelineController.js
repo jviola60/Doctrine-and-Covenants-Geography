@@ -44,7 +44,7 @@ class TimelineController {
     this.updateDisplay();
   }
 
-  goToIndex(index, panMap = true) {
+  goToIndex(index, panMap = true, openMobileSheet = false) {
     if (index < 0) index = 0;
     if (index >= CHRONOLOGICAL_REVELATIONS.length) index = CHRONOLOGICAL_REVELATIONS.length - 1;
 
@@ -59,8 +59,10 @@ class TimelineController {
       if (event.locationId) {
         this.mapCtrl.highlightLocation(event.locationId, false);
       }
-      // Update sidebar dossier with this event
-      window.app.displayChronologicalEvent(event);
+      // Update sidebar dossier and top era badge with this event
+      if (window.app && window.app.displayChronologicalEvent) {
+        window.app.displayChronologicalEvent(event, openMobileSheet);
+      }
     }
   }
 
@@ -128,6 +130,10 @@ class TimelineController {
 
     if (this.currentDate) {
       this.currentDate.textContent = `📅 ${event.dateDisplay} • 📍 ${event.locationName}`;
+    }
+
+    if (window.app && window.app.mobileShell && event.era) {
+      window.app.mobileShell.updateEraBadge(event.era);
     }
   }
 }

@@ -56,6 +56,7 @@
   right: 0;
   bottom: 0;
   background: rgba(20, 16, 12, 0.65);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 2000;
   display: none;
@@ -124,6 +125,55 @@
   overflow-y: auto;
   font-size: 14.5px;
   line-height: 1.6;
+}
+
+.welcome-intro {
+  margin-bottom: 12px;
+}
+
+.modal-section-heading {
+  font-family: var(--font-display);
+  color: var(--leather-brown);
+  margin: 14px 0 6px 0;
+}
+
+.welcome-features-list {
+  padding-left: 20px;
+  margin-bottom: 14px;
+}
+
+.welcome-feature-item {
+  margin-bottom: 6px;
+}
+
+.welcome-tip {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-style: italic;
+}
+
+.calc-intro-text {
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  color: var(--ink-secondary);
+}
+
+.btn-calc-full {
+  width: 100%;
+  justify-content: center;
+  height: 38px;
+}
+
+.frontier-subheading {
+  font-family: var(--font-display);
+  color: var(--leather-brown);
+  margin-bottom: 6px;
+}
+
+.frontier-paragraph {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  margin-bottom: 12px;
 }
 
 /* Distance Calculator Styles */
