@@ -597,6 +597,44 @@
     height: 100% !important;
   }
 
+  /* ------------------------------------------------------------------------
+     Move Plus/Minus Zoom Control to the Right Side on Mobile View
+     ------------------------------------------------------------------------ */
+  .leaflet-top.leaflet-left {
+    left: auto !important;
+    right: 0 !important;
+  }
+
+  .leaflet-top.leaflet-left .leaflet-control-zoom {
+    margin-top: 10px !important;
+    margin-right: 12px !important;
+    margin-left: 0 !important;
+    float: right !important;
+    border: 1.5px solid var(--border-sepia-dark) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  .leaflet-control-zoom a {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    background-color: rgba(253, 250, 243, 0.95) !important;
+    color: var(--leather-brown) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
+  }
+
+  .leaflet-control-zoom a:hover,
+  .leaflet-control-zoom a:active {
+    background-color: var(--leather-brown) !important;
+    color: #ffffff !important;
+  }
+
   /* Bottom navigation bar visible */
   .mobile-bottom-bar {
     display: flex !important;
@@ -628,6 +666,7 @@
     padding: 8px 12px !important;
     max-width: 88vw !important;
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28) !important;
+    z-index: 1100 !important;
   }
 
   .floating-era-header {
