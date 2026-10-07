@@ -109,6 +109,7 @@ class MobileShell {
     this.mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
 
     this.currentEraKey = 'new-york-early';
+    this.currentSearchCategory = 'all';
   }
 
   init() {
@@ -241,6 +242,20 @@ class MobileShell {
         }
       });
     });
+
+    const codexToggleBtn = document.getElementById('mobileCodexToggleBtn');
+    if (codexToggleBtn) {
+      codexToggleBtn.addEventListener('click', () => {
+        this.closeAllDrawers();
+        if (this.sidebar) {
+          if (this.sidebar.classList.contains('closed')) {
+            this.openPeekSheet();
+          } else {
+            this.closeCodexSheet();
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -376,13 +391,11 @@ class MobileShell {
     if (this.mobBottomSearchBtn) {
       this.mobBottomSearchBtn.addEventListener('click', () => {
         const isOpen = this.mobileSearchModal && this.mobileSearchModal.classList.contains('open');
-        this.closeAllDrawers();
-        if (!isOpen && this.mobileSearchModal) {
-          this.mobileSearchModal.classList.add('open');
-          const input = document.getElementById('mobileSearchInput');
-          if (input) input.focus();
+        if (isOpen) {
+          this.closeSearchModal();
+        } else {
+          this.openSearchModal();
         }
-        this.updateBottomNavState();
       });
     }
 
@@ -584,100 +597,272 @@ class MobileShell {
   /* ------------------------------------------------------------------------
      6. Mobile Search Modal
      ------------------------------------------------------------------------ */
+  openSearchModal() {
+    this.closeAllDrawers();
+    if (this.mobileSearchModal) {
+      this.mobileSearchModal.classList.add('open');
+      const input = document.getElementById('mobileSearchInput');
+      const q = input ? input.value.trim() : '';
+      this.renderMobileSearchResults(q, this.currentSearchCategory || 'all');
+      if (input) {
+        input.focus();
+      }
+    }
+    this.updateBottomNavState();
+  }
+
+  closeSearchModal() {
+    if (this.mobileSearchModal) {
+      this.mobileSearchModal.classList.remove('open');
+    }
+    this.updateBottomNavState();
+  }
+
   setupMobileSearch() {
     const toggleBtn = document.getElementById('mobileSearchToggleBtn');
     const closeBtn = document.getElementById('mobileSearchCloseBtn');
+    const clearBtn = document.getElementById('mobileSearchClearBtn');
     const input = document.getElementById('mobileSearchInput');
-    const resultsContainer = document.getElementById('mobileSearchResults');
+    const searchChips = document.querySelectorAll('#mobileSearchChipsBar .mobile-search-chip');
 
     if (toggleBtn && this.mobileSearchModal) {
       toggleBtn.addEventListener('click', () => {
-        this.closeAllDrawers();
-        this.mobileSearchModal.classList.add('open');
-        if (input) input.focus();
-        this.updateBottomNavState();
+        const isOpen = this.mobileSearchModal.classList.contains('open');
+        if (isOpen) {
+          this.closeSearchModal();
+        } else {
+          this.openSearchModal();
+        }
       });
     }
 
     if (closeBtn && this.mobileSearchModal) {
       closeBtn.addEventListener('click', () => {
-        this.mobileSearchModal.classList.remove('open');
-        this.updateBottomNavState();
+        this.closeSearchModal();
       });
     }
 
-    if (input && resultsContainer) {
+    if (clearBtn && input) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        clearBtn.classList.remove('visible');
+        this.renderMobileSearchResults('', this.currentSearchCategory || 'all');
+        input.focus();
+      });
+    }
+
+    if (input) {
       input.addEventListener('input', (e) => {
-        const q = e.target.value.trim().toLowerCase();
-        if (!q) {
-          resultsContainer.innerHTML = '';
-          return;
+        const q = e.target.value.trim();
+        if (clearBtn) {
+          clearBtn.classList.toggle('visible', q.length > 0);
         }
+        this.renderMobileSearchResults(q, this.currentSearchCategory || 'all');
+      });
+    }
 
-        const matchedLocations = (typeof HISTORIC_LOCATIONS !== 'undefined' ? HISTORIC_LOCATIONS : []).filter(loc =>
-          loc.name.toLowerCase().includes(q) ||
-          loc.state.toLowerCase().includes(q) ||
-          loc.significance.toLowerCase().includes(q)
-        ).slice(0, 8);
+    if (searchChips && searchChips.length) {
+      searchChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          searchChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          this.currentSearchCategory = chip.getAttribute('data-filter') || 'all';
+          const q = input ? input.value.trim() : '';
+          this.renderMobileSearchResults(q, this.currentSearchCategory);
+        });
+      });
+    }
+  }
 
-        const matchedRevelations = (typeof CHRONOLOGICAL_REVELATIONS !== 'undefined' ? CHRONOLOGICAL_REVELATIONS : []).filter(rev =>
+  renderMobileSearchResults(query = '', category = 'all') {
+    const resultsContainer = document.getElementById('mobileSearchResults');
+    if (!resultsContainer) return;
+
+    const allLocations = typeof HISTORIC_LOCATIONS !== 'undefined' ? HISTORIC_LOCATIONS : [];
+    const allRevs = typeof CHRONOLOGICAL_REVELATIONS !== 'undefined' ? CHRONOLOGICAL_REVELATIONS : [];
+
+    const getCategoryIcon = (cat) => {
+      switch (cat) {
+        case 'temple': return '🏛️';
+        case 'sacred-site': return '🌲';
+        case 'revelation': return '📜';
+        case 'homestead': return '🏡';
+        case 'jail-martyrdom': return '⛓️';
+        case 'trail-landmark': return '🚩';
+        case 'mission': return '🌍';
+        default: return '📍';
+      }
+    };
+
+    const formatEra = (era) => {
+      const map = {
+        'new-york-early': 'New York & PA',
+        'harmony-colesville': 'Harmony & Colesville',
+        'kirtland-ohio': 'Kirtland & Hiram',
+        'missouri-zion': 'Jackson County',
+        'zions-camp': "Zion's Camp",
+        'liberty-jail': 'Liberty Jail',
+        'missouri-far-west': 'Far West & Caldwell',
+        'nauvoo-illinois': 'Nauvoo & Carthage',
+        'nauvoo-era': 'Nauvoo Era',
+        'pioneer-exodus': 'Winter Quarters',
+        'pioneer-trail': 'Pioneer Trail',
+        'utah-west': 'Salt Lake & Utah',
+        'world-missions': 'World Missions'
+      };
+      return map[era] || era;
+    };
+
+    // Filter locations by category
+    let matchedLocations = allLocations;
+    if (category !== 'all') {
+      if (category === 'revelation') {
+        matchedLocations = allLocations.filter(loc =>
+          loc.category === 'revelation' || (loc.sectionsReceived && loc.sectionsReceived.length > 0)
+        );
+      } else {
+        matchedLocations = allLocations.filter(loc => loc.category === category);
+      }
+    }
+
+    // Filter locations by query if present
+    if (query) {
+      const q = query.toLowerCase();
+      matchedLocations = matchedLocations.filter(loc =>
+        loc.name.toLowerCase().includes(q) ||
+        loc.state.toLowerCase().includes(q) ||
+        loc.significance.toLowerCase().includes(q) ||
+        (loc.badge && loc.badge.toLowerCase().includes(q)) ||
+        (loc.sectionsReceived && loc.sectionsReceived.some(s => s.toLowerCase().includes(q)))
+      );
+    }
+
+    // Filter revelations
+    let matchedRevelations = [];
+    if (category === 'all' || category === 'revelation') {
+      if (query) {
+        const q = query.toLowerCase();
+        matchedRevelations = allRevs.filter(rev =>
           rev.section.toLowerCase().includes(q) ||
           rev.title.toLowerCase().includes(q) ||
-          rev.locationName.toLowerCase().includes(q)
-        ).slice(0, 8);
+          rev.locationName.toLowerCase().includes(q) ||
+          (rev.summary && rev.summary.toLowerCase().includes(q)) ||
+          (rev.participants && rev.participants.some(p => p.toLowerCase().includes(q)))
+        );
+      } else if (category === 'revelation') {
+        matchedRevelations = allRevs;
+      }
+    }
 
-        let html = '';
-        if (matchedLocations.length) {
-          html += `<div style="font-size: 11px; font-weight: 700; color: var(--leather-brown); text-transform: uppercase; margin: 10px 0 6px 0;">Historic Places</div>`;
-          matchedLocations.forEach(loc => {
-            html += `
-              <div class="search-result-item" onclick="window.app.selectLocation('${loc.id}'); document.getElementById('mobileSearchModal').classList.remove('open');">
-                <div class="search-result-main">
-                  <span class="search-result-title">${loc.name}</span>
-                  <span class="search-result-sub">${loc.state}</span>
+    // Empty state
+    if (matchedLocations.length === 0 && matchedRevelations.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="mobile-search-empty">
+          <div class="mobile-search-empty-icon">🔍</div>
+          <div class="mobile-search-empty-title">No Historic Sites Found</div>
+          <p class="mobile-search-empty-text">No matches found for "${query}". Try searching for Sacred Grove, Kirtland, Temple, Liberty Jail, or Section 76.</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+
+    // Summary count bar
+    const totalCount = matchedLocations.length + matchedRevelations.length;
+    html += `
+      <div class="mobile-search-summary">
+        <span>${query ? `Matches for "${query}"` : 'Historic Landmarks'}</span>
+        <span>${totalCount} Visible</span>
+      </div>
+    `;
+
+    // Render locations
+    if (matchedLocations.length > 0) {
+      html += `
+        <div class="mobile-search-section-header">
+          <span>Historic Places</span>
+          <span>${matchedLocations.length} Sites</span>
+        </div>
+      `;
+
+      matchedLocations.forEach(loc => {
+        const sectionsTags = loc.sectionsReceived && loc.sectionsReceived.length
+          ? `<div class="mobile-search-card-tags">
+              ${loc.sectionsReceived.slice(0, 4).map(s => `<span class="mobile-search-tag">${s}</span>`).join('')}
+              ${loc.sectionsReceived.length > 4 ? `<span class="mobile-search-tag">+${loc.sectionsReceived.length - 4} more</span>` : ''}
+            </div>`
+          : '';
+
+        html += `
+          <div class="mobile-search-card" data-loc-id="${loc.id}">
+            <div class="mobile-search-card-top">
+              <div class="mobile-search-card-info">
+                <div class="mobile-search-card-title">${getCategoryIcon(loc.category)} ${loc.name}</div>
+                <div class="mobile-search-card-meta">
+                  <span>📍 ${loc.state}</span>
+                  ${loc.era ? `<span>• ${formatEra(loc.era)}</span>` : ''}
                 </div>
-                <span class="search-result-badge">${loc.badge || loc.category}</span>
               </div>
-            `;
-          });
-        }
-
-        if (matchedRevelations.length) {
-          html += `<div style="font-size: 11px; font-weight: 700; color: var(--leather-brown); text-transform: uppercase; margin: 14px 0 6px 0;">D&C Revelations</div>`;
-          matchedRevelations.forEach(rev => {
-            html += `
-              <div class="search-result-item" onclick="window.app.timelineController.goToIndex(${rev.chronoOrder - 1}); document.getElementById('mobileSearchModal').classList.remove('open');">
-                <div class="search-result-main">
-                  <span class="search-result-title">${rev.section}: ${rev.title}</span>
-                  <span class="search-result-sub">${rev.dateDisplay} • ${rev.locationName}</span>
-                </div>
-                <span class="search-result-badge">Chrono #${rev.chronoOrder}</span>
-              </div>
-            `;
-          });
-        }
-
-        if (!matchedLocations.length && !matchedRevelations.length) {
-          html = `<div style="padding: 16px; text-align: center; color: var(--ink-muted); font-size: 13.5px;">No matches found for "${e.target.value}".</div>`;
-        }
-
-        resultsContainer.innerHTML = html;
+              <span class="search-result-badge">${loc.badge || loc.category}</span>
+            </div>
+            <p class="mobile-search-card-desc">${loc.significance}</p>
+            ${sectionsTags}
+          </div>
+        `;
       });
     }
 
-    const codexToggleBtn = document.getElementById('mobileCodexToggleBtn');
-    if (codexToggleBtn) {
-      codexToggleBtn.addEventListener('click', () => {
-        this.closeAllDrawers();
-        if (this.sidebar) {
-          if (this.sidebar.classList.contains('closed')) {
-            this.openPeekSheet();
-          } else {
-            this.closeCodexSheet();
+    // Render revelations
+    if (matchedRevelations.length > 0) {
+      html += `
+        <div class="mobile-search-section-header">
+          <span>D&C Revelations & Milestones</span>
+          <span>${matchedRevelations.length} Events</span>
+        </div>
+      `;
+
+      matchedRevelations.forEach(rev => {
+        html += `
+          <div class="mobile-search-card" data-chrono-index="${rev.chronoOrder - 1}" data-loc-id="${rev.locationId || ''}">
+            <div class="mobile-search-card-top">
+              <div class="mobile-search-card-info">
+                <div class="mobile-search-card-title">📜 ${rev.section}: ${rev.title}</div>
+                <div class="mobile-search-card-meta">
+                  <span>📅 ${rev.dateDisplay}</span>
+                  <span>• 📍 ${rev.locationName}</span>
+                </div>
+              </div>
+              <span class="search-result-badge">Chrono #${rev.chronoOrder}</span>
+            </div>
+            <p class="mobile-search-card-desc">${rev.summary}</p>
+            ${rev.keyVerses ? `<div class="mobile-search-scripture-quote">"${rev.keyVerses}"</div>` : ''}
+          </div>
+        `;
+      });
+    }
+
+    resultsContainer.innerHTML = html;
+
+    // Attach click listeners to cards
+    resultsContainer.querySelectorAll('.mobile-search-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const locId = card.getAttribute('data-loc-id');
+        const chronoIndexStr = card.getAttribute('data-chrono-index');
+        this.closeSearchModal();
+
+        if (chronoIndexStr !== null && chronoIndexStr !== undefined && chronoIndexStr !== '') {
+          const chronoIndex = parseInt(chronoIndexStr, 10);
+          if (window.app && window.app.timelineController) {
+            window.app.timelineController.goToIndex(chronoIndex, true, true);
+          }
+        } else if (locId) {
+          if (window.app && window.app.selectLocation) {
+            window.app.selectLocation(locId, true, true);
           }
         }
       });
-    }
+    });
   }
 }
 

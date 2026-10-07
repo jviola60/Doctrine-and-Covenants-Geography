@@ -461,11 +461,28 @@
     </div>
 
     <!-- Mobile Search Modal Overlay -->
-    <div class="mobile-search-modal" id="mobileSearchModal">
+    <div class="mobile-search-modal" id="mobileSearchModal" role="dialog" aria-modal="true" aria-label="Search Historic Sites & Revelations">
       <div class="mobile-search-header">
-        <input type="text" id="mobileSearchInput" placeholder="Search places, revelations, people..." autocomplete="off">
-        <button id="mobileSearchCloseBtn" class="mobile-search-close-btn">Cancel</button>
+        <div class="mobile-search-input-wrapper">
+          <span class="mobile-search-input-icon">🔍</span>
+          <input type="text" id="mobileSearchInput" placeholder="Search 57 places, revelations, people..." autocomplete="off" aria-label="Search places and revelations">
+          <button id="mobileSearchClearBtn" class="mobile-search-clear-btn" aria-label="Clear search">&times;</button>
+        </div>
+        <button id="mobileSearchCloseBtn" class="mobile-search-close-btn" type="button">Done</button>
       </div>
+
+      <!-- Quick Category Filter Chips in Mobile Search -->
+      <div class="mobile-search-chips-bar" id="mobileSearchChipsBar" role="tablist" aria-label="Search Category Filters">
+        <button class="mobile-search-chip active" data-filter="all" type="button">All Sites (57)</button>
+        <button class="mobile-search-chip" data-filter="temple" type="button">🏛️ Temples (8)</button>
+        <button class="mobile-search-chip" data-filter="sacred-site" type="button">🌲 Sacred Sites (13)</button>
+        <button class="mobile-search-chip" data-filter="revelation" type="button">📜 Revelations</button>
+        <button class="mobile-search-chip" data-filter="jail-martyrdom" type="button">⛓️ Jails (3)</button>
+        <button class="mobile-search-chip" data-filter="trail-landmark" type="button">🚩 Pioneer Trail (8)</button>
+        <button class="mobile-search-chip" data-filter="homestead" type="button">🏡 Homesteads (13)</button>
+        <button class="mobile-search-chip" data-filter="mission" type="button">🌍 Missions (6)</button>
+      </div>
+
       <div class="mobile-search-results" id="mobileSearchResults"></div>
     </div>
 
